@@ -2,17 +2,24 @@
 {
     using UnityEngine;
 
+    /// <summary>
+    /// Presenter for the Unit.
+    /// </summary>
     public class UnitPresenter : MonoBehaviour
     {
         [SerializeField] private Unit unit;
 
-        private void Awake()
+        private ArmyView view;
+
+        public void Initialize(ArmyView view)
         {
-            unit.OnDied += DestroySelf;
+            this.view = view;
         }
 
-        private void DestroySelf()
+        public void DestroySelf()
         {
+            view.RemoveUnit(this);
+
             Destroy(gameObject);
         }
 

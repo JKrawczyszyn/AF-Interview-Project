@@ -12,18 +12,23 @@
         {
             units = GetComponentsInChildren<UnitPresenter>().ToList();
 
+            units.ForEach(Initialize);
             units.ForEach(ResetState);
-            units.ForEach(AddOnDiedHandler);
         }
 
-        private void ResetState(UnitPresenter unit)
+        private void Initialize(UnitPresenter presenter)
         {
-            unit.GetUnit().ResetState();
+            presenter.Initialize(this);
         }
 
-        private void AddOnDiedHandler(UnitPresenter unit)
+        private void ResetState(UnitPresenter presenter)
         {
-            unit.GetUnit().OnDied += () => units.Remove(unit);
+            presenter.GetUnit().ResetState();
+        }
+
+        public void RemoveUnit(UnitPresenter presenter)
+        {
+            units.Remove(presenter);
         }
 
         public IEnumerable<Unit> GetUnits()

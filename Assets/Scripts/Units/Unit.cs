@@ -4,11 +4,12 @@ namespace AFSInterview.Units
     using System.Linq;
     using UnityEngine;
 
+    /// <summary>
+    /// Model of a unit in the game.
+    /// </summary>
     [Serializable]
     public class Unit
     {
-        public event Action OnDied;
-
         public enum AttributeType
         {
             None,
@@ -32,8 +33,6 @@ namespace AFSInterview.Units
 
         public void ResetState()
         {
-            OnDied = null;
-
             CurrentHealth = health;
             currentAttackInterval = attackInterval;
         }
@@ -54,9 +53,6 @@ namespace AFSInterview.Units
         public void TakeDamage(int damage)
         {
             CurrentHealth -= damage;
-
-            if (CurrentHealth <= 0)
-                OnDied?.Invoke();
         }
 
         public int GetAttackDamageAgainst(Unit unit)

@@ -17,7 +17,6 @@
 		private int layerMask;
 		private ItemActionResolver itemActionResolver;
 
-
 		private void Start()
 		{
 			cameraMain = Camera.main;

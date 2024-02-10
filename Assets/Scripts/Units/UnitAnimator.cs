@@ -1,6 +1,5 @@
 ﻿namespace AFSInterview.Units
 {
-    using UnityEngine;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Utilities;
@@ -16,15 +15,18 @@
             this.army2View = army2View;
         }
 
-        public async Task AnimateAttacks(IEnumerable<UnitAttack> attacks)
+        public async Task AnimateCommands(IEnumerable<IUnitCommand> commands)
         {
-            foreach (UnitAttack attack in attacks)
+            foreach (IUnitCommand command in commands)
             {
-                var attackerPresenter = GetUnitPresenter(attack.Attacker);
-                var defenderPresenter = GetUnitPresenter(attack.Defender);
+                if (command is UnitAttackCommand attack)
+                {
+                    var attackerPresenter = GetUnitPresenter(attack.Attacker);
+                    var defenderPresenter = GetUnitPresenter(attack.Defender);
 
-                if (attackerPresenter != null && defenderPresenter != null)
-                    await AnimateAttack(attackerPresenter, defenderPresenter, attack.IsDefenderDead);
+                    if (attackerPresenter != null && defenderPresenter != null)
+                        await AnimateAttack(attackerPresenter, defenderPresenter, attack.IsDefenderDead);
+                }
             }
         }
 
@@ -37,12 +39,12 @@
         {
             var startPosition = attackerPresenter.transform.position;
 
-            await attackerPresenter.transform.AnimateMove(defenderPresenter.transform.position, 0.5f);
+            await attackerPresenter.transform.AnimateMove(defenderPresenter.transform.position, 0.2f);
 
             if (isDefenderDead)
-                defenderPresenter.gameObject.SetActive(false);
+                defenderPresenter.DestroySelf();
 
-            await attackerPresenter.transform.AnimateMove(startPosition, 0.5f);
+            await attackerPresenter.transform.AnimateMove(startPosition, 0.2f);
         }
     }
 }

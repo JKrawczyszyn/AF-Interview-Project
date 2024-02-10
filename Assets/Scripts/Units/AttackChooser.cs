@@ -1,9 +1,8 @@
-﻿using UnityEngine.Assertions;
-
-namespace AFSInterview.Units
+﻿namespace AFSInterview.Units
 {
     using System.Collections.Generic;
     using System.Linq;
+    using UnityEngine.Assertions;
 
     public class AttackChooser
     {
@@ -13,19 +12,21 @@ namespace AFSInterview.Units
         {
             unitToPriority.Clear();
 
-            var defendersArray = defenders as Unit[] ?? defenders.ToArray();
+            foreach (var defender in defenders)
+            {
+                if (defender.IsDead)
+                    continue;
 
-            foreach (Unit defender in defendersArray)
                 unitToPriority[defender] = CalculatePriority(attacker, defender);
+            }
 
-            return defendersArray.OrderByDescending(d => unitToPriority[d]).FirstOrDefault();
+            return unitToPriority.OrderByDescending(kvp => kvp.Value).FirstOrDefault().Key;
         }
 
         private float CalculatePriority(Unit attacker, Unit defender)
         {
-            if (defender.CurrentHealth <= 0)
-                return -1f;
-
+            // AI is not very smart.
+            // The priority is the ratio of the attack damage to the current health of the defender.
             var priority = (float)attacker.GetAttackDamageAgainst(defender) / defender.CurrentHealth;
 
             Assert.IsTrue(priority >= 0f, "Priority must be non-negative");

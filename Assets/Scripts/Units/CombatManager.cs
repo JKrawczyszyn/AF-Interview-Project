@@ -1,11 +1,10 @@
-﻿using TMPro;
-
-namespace AFSInterview.Units
+﻿namespace AFSInterview.Units
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using UnityEngine;
+    using TMPro;
 
     public class CombatManager : MonoBehaviour
     {
@@ -57,8 +56,8 @@ namespace AFSInterview.Units
 
                 UpdateTurnText();
 
-                var performTurn = AdvanceTurn();
-                await unitAnimator.AnimateAttacks(performTurn);
+                var commands = AdvanceTurn();
+                await unitAnimator.AnimateCommands(commands);
 
                 if (!AnyUnitsInArmies)
                 {
@@ -89,15 +88,15 @@ namespace AFSInterview.Units
                 Debug.Log("    - " + army2View.GetUnitName(unit) + " - health: " + unit.CurrentHealth);
         }
 
-        private IEnumerable<UnitAttack> AdvanceTurn()
+        private IEnumerable<IUnitCommand> AdvanceTurn()
         {
-            var attacks = Enumerable.Empty<UnitAttack>();
+            var commands = Enumerable.Empty<IUnitCommand>();
 
             if (!Army1Units.Any() || !Army2Units.Any())
             {
                 Debug.Log("Game over");
 
-                return attacks;
+                return commands;
             }
 
             Debug.Log("Turn of " + (army1Turn ? "Army 1" : "Army 2") + " started");
@@ -107,26 +106,26 @@ namespace AFSInterview.Units
                 foreach (Unit unit in Army1Units)
                     unit.AdvanceTurn();
 
-                attacks = PerformTurn(Army1Units, Army2Units);
+                commands = PerformTurn(Army1Units, Army2Units);
             }
             else
             {
                 foreach (Unit unit in Army2Units)
                     unit.AdvanceTurn();
 
-                attacks = PerformTurn(Army2Units, Army1Units);
+                commands = PerformTurn(Army2Units, Army1Units);
             }
 
             army1Turn = !army1Turn;
 
             Debug.Log("Turn ended.");
 
-            return attacks;
+            return commands;
         }
 
-        private IEnumerable<UnitAttack> PerformTurn(IEnumerable<Unit> attackers, IEnumerable<Unit> defenders)
+        private IEnumerable<IUnitCommand> PerformTurn(IEnumerable<Unit> attackers, IEnumerable<Unit> defenders)
         {
-            List<UnitAttack> attacks = new();
+            List<IUnitCommand> commands = new();
 
             var defendersArray = defenders as Unit[] ?? defenders.ToArray();
 
@@ -139,35 +138,28 @@ namespace AFSInterview.Units
                 if (defender == null)
                     continue;
 
-                var damage = attacker.GetAttackDamageAgainst(defender);
-
-                defender.TakeDamage(damage);
-
-                attacks.Add(new UnitAttack(attacker, defender, defender.IsDead));
-
-                Debug.Log("Attack of " + GetUnitName(attacker) + " on " + GetUnitName(defender) + " for " + damage + " damage");
+                var command = Attack(attacker, defender);
+                commands.Add(command);
             }
 
-            return attacks;
+            return commands;
+        }
+
+        private IUnitCommand Attack(Unit attacker, Unit defender)
+        {
+            var attack = new UnitAttackCommand(attacker, defender);
+
+            attack.Execute();
+
+            Debug.Log("Attack of " + GetUnitName(attacker) + " on " + GetUnitName(defender) + " for "
+                + attacker.GetAttackDamageAgainst(defender) + " damage." + (defender.IsDead ? " Defender died." : ""));
+
+            return attack;
         }
 
         private string GetUnitName(Unit unit)
         {
             return army1View.GetUnitName(unit) ?? army2View.GetUnitName(unit);
-        }
-    }
-
-    public struct UnitAttack
-    {
-        public Unit Attacker { get; }
-        public Unit Defender { get; }
-        public bool IsDefenderDead { get; }
-
-        public UnitAttack(Unit attacker, Unit defender, bool isDefenderDead)
-        {
-            Attacker = attacker;
-            Defender = defender;
-            IsDefenderDead = isDefenderDead;
         }
     }
 }
