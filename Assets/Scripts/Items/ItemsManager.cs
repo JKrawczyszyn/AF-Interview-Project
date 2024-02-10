@@ -11,27 +11,41 @@
 		[SerializeField] private GameObject itemPrefab;
 		[SerializeField] private BoxCollider itemSpawnArea;
 		[SerializeField] private float itemSpawnInterval;
+		[SerializeField] private TextMeshProUGUI moneyText;
 
-		private float nextItemSpawnTime;
-		
+		private Camera cameraMain;
+		private int layerMask;
+
+		private void Start()
+		{
+			cameraMain = Camera.main;
+			layerMask = LayerMask.GetMask("Item");
+
+			UpdateMoneyText();
+
+			InvokeRepeating(nameof(SpawnNewItem), 0f, itemSpawnInterval);
+		}
+
 		private void Update()
 		{
-			if (Time.time >= nextItemSpawnTime)
-				SpawnNewItem();
-			
 			if (Input.GetMouseButtonDown(0))
 				TryPickUpItem();
 			
 			if (Input.GetKeyDown(KeyCode.Space))
+			{
 				inventoryController.SellAllItemsUpToValue(itemSellMaxValue);
 
-			FindObjectOfType<TextMeshProUGUI>().text = "Money: " + inventoryController.Money;
+				UpdateMoneyText();
+			}
+		}
+
+		private void UpdateMoneyText()
+		{
+			moneyText.text = "Money: " + inventoryController.Money;
 		}
 
 		private void SpawnNewItem()
 		{
-			nextItemSpawnTime = Time.time + itemSpawnInterval;
-			
 			var spawnAreaBounds = itemSpawnArea.bounds;
 			var position = new Vector3(
 				Random.Range(spawnAreaBounds.min.x, spawnAreaBounds.max.x),
@@ -39,14 +53,14 @@
 				Random.Range(spawnAreaBounds.min.z, spawnAreaBounds.max.z)
 			);
 			
+			// Could be optimized by using object pooling if necessary
 			Instantiate(itemPrefab, position, Quaternion.identity, itemSpawnParent);
 		}
 
 		private void TryPickUpItem()
 		{
-			var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			var layerMask = LayerMask.GetMask("Item");
-			if (!Physics.Raycast(ray, out var hit, 100f, layerMask) || !hit.collider.TryGetComponent<IItemHolder>(out var itemHolder))
+			var ray = cameraMain.ScreenPointToRay(Input.mousePosition);
+			if (!Physics.Raycast(ray, out var hit, 100f, layerMask) || !hit.transform.gameObject.TryGetComponent<IItemHolder>(out var itemHolder))
 				return;
 			
 			var item = itemHolder.GetItem(true);

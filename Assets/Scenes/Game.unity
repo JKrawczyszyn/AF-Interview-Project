@@ -494,6 +494,7 @@ MonoBehaviour:
     type: 3}
   itemSpawnArea: {fileID: 1201324633}
   itemSpawnInterval: 2.5
+  moneyText: {fileID: 1931683898}
 --- !u!1 &246465937
 GameObject:
   m_ObjectHideFlags: 0
