@@ -26,7 +26,7 @@ PrefabInstance:
     - target: {fileID: -667997022036756142, guid: 5f82e6f872778994895b45286e950306,
         type: 3}
       propertyPath: unit.attackInterval
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -667997022036756142, guid: 5f82e6f872778994895b45286e950306,
         type: 3}

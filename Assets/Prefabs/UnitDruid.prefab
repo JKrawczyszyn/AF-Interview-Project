@@ -21,7 +21,7 @@ PrefabInstance:
     - target: {fileID: -667997022036756142, guid: 5f82e6f872778994895b45286e950306,
         type: 3}
       propertyPath: unit.attackDamage
-      value: 10
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: -667997022036756142, guid: 5f82e6f872778994895b45286e950306,
         type: 3}
@@ -31,7 +31,7 @@ PrefabInstance:
     - target: {fileID: -667997022036756142, guid: 5f82e6f872778994895b45286e950306,
         type: 3}
       propertyPath: unit.attackDamageOverride
-      value: 15
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: -667997022036756142, guid: 5f82e6f872778994895b45286e950306,
         type: 3}
