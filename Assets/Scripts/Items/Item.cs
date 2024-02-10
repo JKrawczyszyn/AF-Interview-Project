@@ -8,6 +8,7 @@
 	{
 		[SerializeField] private string name;
 		[SerializeField] private int value;
+		[SerializeField] private ItemAction action;
 
 		public string Name => name;
 		public int Value => value;
@@ -18,9 +19,11 @@
 			this.value = value;
 		}
 
-		public void Use()
+		public ItemAction Use()
 		{
-			Debug.Log("Using" + Name);
+			Debug.Log("Using " + Name);
+
+			return action;
 		}
 	}
 }
