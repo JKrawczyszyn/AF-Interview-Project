@@ -15,11 +15,14 @@
 
 		private Camera cameraMain;
 		private int layerMask;
+		private ItemActionResolver itemActionResolver;
+
 
 		private void Start()
 		{
 			cameraMain = Camera.main;
 			layerMask = LayerMask.GetMask("Item");
+			itemActionResolver = new ItemActionResolver(inventoryController);
 
 			UpdateMoneyText();
 
@@ -76,8 +79,10 @@
 				return;
 
 			var item = itemHolder.GetItem(true);
-			item.Use();
-			Debug.Log("Used " + item.Name + " item");
+			ItemAction action = item.Use();
+			itemActionResolver.Resolve(action);
+			UpdateMoneyText();
+			Debug.Log("Used " + item.Name + " item and now have " + inventoryController.Money + " money and " + inventoryController.ItemsCount + " items");
 		}
 
 		private bool TryGetItemHolderOnPosition(Vector3 position, out IItemHolder itemHolder)

@@ -24,6 +24,11 @@
 			}
 		}
 
+		public void AddMoney(int value)
+		{
+			money += value;
+		}
+
 		public void AddItem(Item item)
 		{
 			items.Add(item);
