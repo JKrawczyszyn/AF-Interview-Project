@@ -6,11 +6,18 @@
     {
         [SerializeField] private Unit unit;
 
-        public Unit GetUnit(bool disposeHolder)
+        private void Awake()
         {
-            if (disposeHolder)
-                Destroy(gameObject);
+            unit.OnDied += DestroySelf;
+        }
 
+        private void DestroySelf()
+        {
+            Destroy(gameObject);
+        }
+
+        public Unit GetUnit()
+        {
             return unit;
         }
     }
