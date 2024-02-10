@@ -155,16 +155,40 @@ MonoBehaviour:
   items:
   - name: Wooden shield
     value: 90
+    action:
+      <Type>k__BackingField: 0
+      <Name>k__BackingField: 
+      <Value>k__BackingField: 0
   - name: Bow
     value: 150
+    action:
+      <Type>k__BackingField: 0
+      <Name>k__BackingField: 
+      <Value>k__BackingField: 0
   - name: Mana Potion
     value: 60
+    action:
+      <Type>k__BackingField: 0
+      <Name>k__BackingField: 
+      <Value>k__BackingField: 0
   - name: Sword
     value: 130
+    action:
+      <Type>k__BackingField: 0
+      <Name>k__BackingField: 
+      <Value>k__BackingField: 0
   - name: Long Sword
     value: 160
+    action:
+      <Type>k__BackingField: 0
+      <Name>k__BackingField: 
+      <Value>k__BackingField: 0
   - name: Plate Armor
     value: 300
+    action:
+      <Type>k__BackingField: 0
+      <Name>k__BackingField: 
+      <Value>k__BackingField: 0
   money: 280
 --- !u!4 &117263
 Transform:
@@ -203,6 +227,21 @@ PrefabInstance:
         type: 3}
       propertyPath: item.value
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1562054653796185208, guid: 70297e35c79c32843b2cbbda048d720c,
+        type: 3}
+      propertyPath: item.action.<Name>k__BackingField
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1562054653796185208, guid: 70297e35c79c32843b2cbbda048d720c,
+        type: 3}
+      propertyPath: item.action.<Type>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1562054653796185208, guid: 70297e35c79c32843b2cbbda048d720c,
+        type: 3}
+      propertyPath: item.action.<Value>k__BackingField
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6760591476060598716, guid: 70297e35c79c32843b2cbbda048d720c,
         type: 3}
@@ -1226,6 +1265,21 @@ PrefabInstance:
       propertyPath: item.value
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 1562054653796185208, guid: 70297e35c79c32843b2cbbda048d720c,
+        type: 3}
+      propertyPath: item.action.<Name>k__BackingField
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1562054653796185208, guid: 70297e35c79c32843b2cbbda048d720c,
+        type: 3}
+      propertyPath: item.action.<Type>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1562054653796185208, guid: 70297e35c79c32843b2cbbda048d720c,
+        type: 3}
+      propertyPath: item.action.<Value>k__BackingField
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 6760591476060598716, guid: 70297e35c79c32843b2cbbda048d720c,
         type: 3}
       propertyPath: m_RootOrder
@@ -1345,6 +1399,21 @@ PrefabInstance:
         type: 3}
       propertyPath: item.value
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1562054653796185208, guid: 70297e35c79c32843b2cbbda048d720c,
+        type: 3}
+      propertyPath: item.action.<Name>k__BackingField
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1562054653796185208, guid: 70297e35c79c32843b2cbbda048d720c,
+        type: 3}
+      propertyPath: item.action.<Type>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1562054653796185208, guid: 70297e35c79c32843b2cbbda048d720c,
+        type: 3}
+      propertyPath: item.action.<Value>k__BackingField
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6760591476060598716, guid: 70297e35c79c32843b2cbbda048d720c,
         type: 3}

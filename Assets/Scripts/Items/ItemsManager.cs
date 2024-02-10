@@ -15,11 +15,14 @@
 
 		private Camera cameraMain;
 		private int layerMask;
+		private ItemActionResolver itemActionResolver;
+
 
 		private void Start()
 		{
 			cameraMain = Camera.main;
 			layerMask = LayerMask.GetMask("Item");
+			itemActionResolver = new ItemActionResolver(inventoryController);
 
 			UpdateMoneyText();
 
@@ -30,6 +33,9 @@
 		{
 			if (Input.GetMouseButtonDown(0))
 				TryPickUpItem();
+
+			if (Input.GetMouseButtonDown(1))
+				TryUseItem();
 			
 			if (Input.GetKeyDown(KeyCode.Space))
 			{
@@ -59,13 +65,35 @@
 
 		private void TryPickUpItem()
 		{
-			var ray = cameraMain.ScreenPointToRay(Input.mousePosition);
-			if (!Physics.Raycast(ray, out var hit, 100f, layerMask) || !hit.transform.gameObject.TryGetComponent<IItemHolder>(out var itemHolder))
+			if (TryGetItemHolderOnPosition(Input.mousePosition, out IItemHolder itemHolder))
 				return;
 			
 			var item = itemHolder.GetItem(true);
             inventoryController.AddItem(item);
             Debug.Log("Picked up " + item.Name + " with value of " + item.Value + " and now have " + inventoryController.ItemsCount + " items");
+		}
+
+		private void TryUseItem()
+		{
+			if (TryGetItemHolderOnPosition(Input.mousePosition, out IItemHolder itemHolder))
+				return;
+
+			var item = itemHolder.GetItem(true);
+			ItemAction action = item.Use();
+			itemActionResolver.Resolve(action);
+			UpdateMoneyText();
+			Debug.Log("Used " + item.Name + " item and now have " + inventoryController.Money + " money and " + inventoryController.ItemsCount + " items");
+		}
+
+		private bool TryGetItemHolderOnPosition(Vector3 position, out IItemHolder itemHolder)
+		{
+			itemHolder = null;
+
+			var ray = cameraMain.ScreenPointToRay(position);
+			if (!Physics.Raycast(ray, out var hit, 100f, layerMask) || !hit.transform.gameObject.TryGetComponent<IItemHolder>(out itemHolder))
+				return true;
+
+			return false;
 		}
 	}
 }

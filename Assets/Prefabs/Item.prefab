@@ -49,6 +49,10 @@ MonoBehaviour:
   item:
     name: Apple
     value: 10
+    action:
+      <Type>k__BackingField: 1
+      <Name>k__BackingField: Seed
+      <Value>k__BackingField: 1
 --- !u!65 &8426643071871308913
 BoxCollider:
   m_ObjectHideFlags: 0
