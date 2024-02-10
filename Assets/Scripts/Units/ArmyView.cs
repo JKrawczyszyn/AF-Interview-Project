@@ -33,7 +33,12 @@
 
         public string GetUnitName(Unit unit)
         {
-            return units.Where(u => u.GetUnit() == unit).Select(u => u.name).FirstOrDefault();
+            return GetUnitPresenter(unit)?.name;
+        }
+
+        public UnitPresenter GetUnitPresenter(Unit unit)
+        {
+            return units.FirstOrDefault(u => u.GetUnit() == unit);
         }
     }
 }

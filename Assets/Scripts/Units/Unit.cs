@@ -28,6 +28,8 @@ namespace AFSInterview.Units
 
         public int CurrentHealth { get; private set; }
 
+        public bool IsDead => CurrentHealth <= 0;
+
         public void ResetState()
         {
             OnDied = null;
